@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="si">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a56">
+  <meta name="description" content="පුද්ගලික Student Wallet expense tracker">
+  <title>Student Wallet | Premium</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div>
+        <p class="eyebrow">STUDENT EDITION · PERSONAL FINANCE</p>
+        <h1>My Student Wallet</h1>
+        <p class="sub">ඔයාගේ සල්ලි. ඔයාගේ තීරණ. 💙</p>
+      </div>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">☾</button>
+    </div>
+    <div class="month-pill" id="monthLabel"></div>
+  </header>
+
+  <main>
+    <section class="hero card">
+      <div class="hero-top"><div><p class="muted">මාසික Allowance</p><div class="big" id="allowance">රු. 15,000</div></div><span class="wallet-icon">◈</span></div>
+      <div class="stats">
+        <div><span>වියදම් කළ මුදල</span><strong id="spent">රු. 0</strong></div>
+        <div><span>ඉතිරි මුදල</span><strong id="remaining">රු. 15,000</strong></div>
+      </div>
+      <div class="progress"><div id="progressBar"></div></div>
+      <p class="tiny" id="progressText">මාසික වියදම් ප්‍රගතිය</p>
+    </section>
+
+    <section class="quick-grid">
+      <div class="mini card"><div class="mini-icon">🍛</div><small>කෑම වියදම්</small><strong id="foodSpent">රු. 0</strong></div>
+      <div class="mini card"><div class="mini-icon">📅</div><small>අද වියදම</small><strong id="todaySpent">රු. 0</strong></div>
+    </section>
+
+    <section class="card form-card">
+      <div class="section-head"><h2>＋ අලුත් වියදමක්</h2><span class="tag">QUICK ADD</span></div>
+      <form id="expenseForm">
+        <label for="amount">මුදල (රු.)</label>
+        <input id="amount" type="number" min="1" step="1" placeholder="උදා: 250" required inputmode="numeric">
+        <label for="category">වියදම් වර්ගය</label>
+        <select id="category">
+          <option value="Food">🍛 කෑම / Snacks</option><option value="Transport">🚌 ගමන් වියදම්</option>
+          <option value="University">📚 University</option><option value="Phone">📱 Phone / Data</option>
+          <option value="Personal">🎮 Personal</option><option value="Other">📦 වෙනත්</option>
+        </select>
+        <label for="note">විස්තරය (අවශ්‍ය නම්)</label>
+        <input id="note" type="text" maxlength="60" placeholder="උදා: Lunch, Tea, Bus">
+        <label for="date">දිනය</label><input id="date" type="date" required>
+        <button class="primary" type="submit">වියදම Save කරන්න <span>→</span></button>
+      </form>
+      <p class="tiny">ඔයාගේ වියදම් මේ Phone එකේම save වෙනවා.</p>
+    </section>
+
+    <section class="card">
+      <div class="section-head"><h2>📊 වියදම් විශ්ලේෂණය</h2><span class="tag">THIS MONTH</span></div>
+      <div class="chart-summary"><div><small>මුළු වියදම</small><strong id="chartTotal">රු. 0</strong></div><div><small>Entries</small><strong id="count">0</strong></div></div>
+      <div id="categoryChart" class="category-chart"></div>
+      <div id="categoryBreakdown" class="breakdown"></div>
+      <h3 class="subheading">සතියේ වියදම්</h3>
+      <div id="weeklyChart" class="weekly-chart"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head"><h2>🎯 Savings Goals</h2><span class="tag">YOUR TARGETS</span></div>
+      <form id="goalForm" class="goal-form">
+        <input id="goalName" type="text" maxlength="35" placeholder="ඉලක්කය (උදා: New headphones)" required>
+        <input id="goalTarget" type="number" min="1" placeholder="Target රු." required inputmode="numeric">
+        <button class="secondary" type="submit">＋ Goal එකක්</button>
+      </form>
+      <div id="goalsList" class="goals-list"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head"><h2>🧾 වියදම් ඉතිහාසය</h2><button class="text-btn" id="exportBtn" type="button">CSV Export ↓</button></div>
+      <div id="expenseList" class="expense-list"><p class="empty">තවම වියදම් ඇතුළත් කරලා නැහැ.</p></div>
+    </section>
+
+    <section class="card settings">
+      <div class="section-head"><h2>⚙️ Budget & Limits</h2><span class="tag">CONTROL CENTER</span></div>
+      <label for="allowanceInput">මාසික Allowance එක (රු.)</label>
+      <div class="inline"><input id="allowanceInput" type="number" min="1" value="15000" inputmode="numeric"><button id="saveAllowance" type="button" class="secondary">Update</button></div>
+      <div class="setting-block">
+        <h3>Daily Spending Limit</h3>
+        <label for="dailyLimit">දිනකට උපරිම වියදම (රු.)</label>
+        <div class="inline"><input id="dailyLimit" type="number" min="0" placeholder="උදා: 500"><button id="saveDailyLimit" type="button" class="secondary">Save</button></div>
+        <p class="tiny" id="dailyStatus">දිනපතා සීමාවක් සකසා නැහැ.</p>
+      </div>
+      <div class="setting-block">
+        <h3>Category Budgets</h3>
+        <p class="tiny">එක් එක් වියදම් වර්ගයට මාසික සීමාවක් දාන්න. 0 නම් සීමාවක් නැහැ.</p>
+        <div id="budgetInputs" class="budget-inputs"></div>
+        <button id="saveBudgets" class="secondary full" type="button">Budget Limits Save කරන්න</button>
+      </div>
+      <button id="backupBtn" class="secondary full" type="button">Backup JSON Download ↓</button>
+    </section>
+  </main>
+
+  <footer>Designed for your student life 💙<br><span>දිනපතා වියදම් record කරලා control එක තියාගන්න.</span></footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
